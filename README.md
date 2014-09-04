@@ -1,4 +1,6 @@
-kauppalista
+Kauppalista
 ===========
 
-Kauppalista is a virtual shopping list. Done for UHCS.
+Kauppalista is a virtual shopping list. Done for Database Demonstration Course in UHCS.
+
+You can view a live demo of the project at http://tsoha.elmnainen.fi
