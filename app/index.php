@@ -19,14 +19,48 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        
+        <!-- start page -->
+        
+        <section id="header">
+            
+            <section id="masthead">
+                
+                <h1 id="site-title">Tietokantasovelluksen esittelysivu: Kauppalista</h1>
+                    
+            </section><!-- masthead -->
+            
+            <section id="navigation">
+            </section><!-- navigation -->
+            
+        </section><!-- header -->
+        
+        <div class="container">
+            
+            <section id="main">
+                
+                <ul>
+                    <li><a href="https://github.com/jelmnainen/kauppalista">Työn repositorio</a></li>
+                    <li><a href="https://github.com/jelmnainen/kauppalista/blob/master/doc/dokumentaatio.pdf">Työn dokumentaatio</a></li>
+                </ul>
+                
+                <h2>Työn aihe</h2>
+                        
+                <p>
+                    Kauppalista on tietokantasovellus, joka toimii virtuaalisena muistilistana kauppaostoksista. Yksineläjille sen päätoimintona on nimenomaan toimia mukaan otettavana listana ostoksista. Useamman hengen ruokakunnille ruokalista tarjoaa yhteistoimintomahdollisuuksia, kuten yhteistyössä koottavat ostoslistat,  tarpeiden hankinnan hajauttamiseen ja kulujen kirjanpidon.
+                </p>
 
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+            </section> <!-- main -->
+        
+        </div> <!-- container -->
+            
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="style/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="style/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-
-        <script src="style/js/main.js"></script>
-
+            <script src="style/js/main.js"></script>
+            
+        
+        
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
