@@ -1,0 +1,54 @@
+<?php
+
+/*
+ * The class handels database related functions
+ */
+
+class db {
+    
+    /*
+    private $dbname;
+    private $dbuser;
+    private $dbuserpass;
+    private $dbhost;
+    */
+    
+    private $dbh;
+    private $error;
+    
+    
+    /*
+     * Class constructor
+     * 
+     * Try to create a new PDO DB connection
+     * 
+     * @database name of the databse to be used
+     * @user name of the user for the database
+     * @password user's password
+     * @host (optional, defaults to 'localhost') the database host address
+     */
+    public function __construct($dbname, $dbuser, $dbuserpass, $dbhost = "localhost"){
+        /*
+        $this->$dbname      = $dbname;
+        $this->$dbuser      = $dbuser;
+        $this->$dbuserpass  = $dbuserpass;
+        $this->$dbhost      = $dbhost;
+        */
+        
+        $dsn = "mysql:host=" . $dbhost . ";dbname=" . $dbname;
+        $options = array(
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        );
+        
+        try{
+            
+            $this->dbh = new PDO($dsn, $dbuser, $dbuserpass, $options);
+                    
+        } catch (Exception $ex) {
+
+        }
+        
+    }
+    
+            
+}
