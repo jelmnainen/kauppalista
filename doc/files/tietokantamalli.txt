@@ -1,0 +1,33 @@
+Users
+	-id (PK)
+	-username
+	-email
+	-password
+	-salt
+	
+Shoppinglists
+	-id (PK)
+	-name
+	-active (TRUE, FALSE)
+	-updated (TIMESTAMP)
+	
+OwnersToListsRef
+	-Users.id
+	-Shoppinglists.id
+	
+CollaboratorsToListsRef
+	-Users.id
+	-Shoppinglists.id
+	
+Items
+	-id (PK)
+	-name
+	-shop
+	-price
+	-buyer
+	-bought (TRUE, FALSE)
+	
+ItemsToListsRef
+	-Items.id
+	-Shoppinglists.id
+	
