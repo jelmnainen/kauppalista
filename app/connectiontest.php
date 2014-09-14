@@ -3,18 +3,8 @@
 /* Konfiguroi tähän */
 /********************/
 
-//Kommentoi pois se konfikguraatio, jota ET halua käyttää ja muokkaa käyttämästäsi detaljit oikeaksi.
-
-//Postgresql-konfiguraatio, joka toimii users:illa heittämällä
-$config = array(
-  'dburl' => 'pgsql:'
-);
-//MySql-konfiguraatio. Muista vaihtaa socketin osoitteeseen oma käyttäjänimesi, sekä tietokannan nimi ja tunnuksesi
-$config = array(
-  'dburl' => 'mysql:unix_socket=/home/FIXME/mysql/socket;dbname=FIXME',
-  'dbusername' => 'root',
-  'dbpassword' => 'FIXME',
-);
+//require config to hide the db userdetails in github >.<
+require_once( 'config/connectiontest.config.php' );
 
 /***************************************************************/
 /* Koodia. Tästä tiedostosta ei kannata ottaa mallia mihinkään */
@@ -174,6 +164,8 @@ try {
 </head>
 <body> 
 <div class="container" id="content">
+  <h1>Protip: ctrl + f -> shoppinglist</h1>
+  <p>Köyhillä ihmisllä on vain yksi kanta :(</p>
   <h1>Projektin tietokantataulut</h1>
 <?php
 
