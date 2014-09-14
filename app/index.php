@@ -1,4 +1,23 @@
+<?php
+/*
+   //get globals
+    require_once('config.php');
+    
+    //set up db connection
+    require_once($CONFIG['site_url'] . 'lib/db.class.php');
+    $db = new db($CONFIG['db_config']);
+    $dbp = $CONFIG['db_config']['prefix'];
+    
+    //test db connection
+    $sql = "SELECT * FROM " . $dbp . "_items";
+    $res = $db->query($sql);
+    
+*/
+
+?>
+
 <!DOCTYPE html>
+
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->

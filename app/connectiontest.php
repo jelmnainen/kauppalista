@@ -3,7 +3,8 @@
 /* Konfiguroi tähän */
 /********************/
 
-//require config to hide the db userdetails in github >.<
+//db user details in .gitignored file in order to avoid showing the whole world your 
+//user details  >.<
 require_once( 'config/connectiontest.config.php' );
 
 /***************************************************************/
