@@ -1,19 +1,18 @@
 <?php
-/*
-   //get globals
-    require_once('config.php');
-    
-    //set up db connection
-    require_once($CONFIG['site_url'] . 'lib/db.class.php');
-    $db = new db($CONFIG['db_config']);
-    $dbp = $CONFIG['db_config']['prefix'];
-    
-    //test db connection
-    $sql = "SELECT * FROM " . $dbp . "_items";
-    $res = $db->query($sql);
-    
-*/
 
+    ob_start();
+    session_start();
+ 
+   //set up $CONFIG
+    GLOBAL $CONFIG;
+    require_once( __DIR__ . '/config.php' ); 
+    
+    //set up db    
+    require_once($CONFIG['home_dir'] . 'lib/db.class.php');    
+    $db = new db($CONFIG['dbconfig']);
+
+    ob_end_flush();		
+    
 ?>
 
 <!DOCTYPE html>

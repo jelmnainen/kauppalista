@@ -6,9 +6,8 @@
 
 class db {
     
-    private $dbh;
+    public $conn;
     private $error;
-    
     
     /*
      * 
@@ -21,22 +20,30 @@ class db {
      */
     public function __construct( $dbconfig ){        
         
-        $options = array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        );
+        
         
         try{
             
-            $this->dbh = new PDO(
-                    $dbconfig["dsn"], 
-                    $dbconfig["username"], 
-                    $dbconfig["passowrd"],
-                    $options
-                );
+            $this->conn = new PDO($dbconfig["dsn"], $dbconfig["username"], $dbconfig["password"]);
+            
+            //set errmode to exception to get all the juicy bits
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     
-        } catch (Exception $ex) {
+        } catch (PDOException $e) {
+            
+            $this->error = $e;
 
         }
+          
+         
+        
+    }
+    
+    public function test(){
+        
+        $sql = "SELECT * FROM `shoppinglist_items`";
+        
+        //return ($this->dbh->query($sql));
         
     }
     
