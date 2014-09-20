@@ -2,7 +2,9 @@
 
 //set up config 
 $CONFIG = array(
-    'homedir'   =>  __DIR__ . "/"
+    'homedir'       =>  __DIR__ . "/",
+    'controllerdir' =>  __DIR__ . "/controllers/",
+    'homeurl'       => "http://tsoha.elmnainen.fi"
 );
 
 //dbconfig holds db dsn, username, password
