@@ -11,12 +11,23 @@ abstract class controllerbase {
     protected $db;
     protected $action;
     protected $params;
+    protected $modelfile;
+    protected $model;
     
     public function __construct( $action, $params, $db ){
-    
-            $this->action   = $action;
-            $this->params   = $params;
-            $this->db       = $db;
+        
+        GLOBAL $CONFIG;
+        
+        $this->action       = $action;
+        $this->params       = $params;
+        $this->db           = $db;
+        $this->modelfile    = $CONFIG["modelsdir"] . get_class($this) . "model.php";
+        
+        require_once($this->modelfile);
+        
+        $model = get_class($this) . "model";
+        
+        $this->model = new $model;
         
     }
     
@@ -36,7 +47,7 @@ abstract class controllerbase {
         
         GLOBAL $CONFIG;
         
-        $views = $CONFIG["viewsdir"] 
+        $view = $CONFIG["viewsdir"] 
                  . get_class($this) 
                  . '/' . $this->action 
                  . '.php';
@@ -48,6 +59,7 @@ abstract class controllerbase {
         }
     }
     
+  
     protected function index(){
         
         $output = "<h1>Korvaa jollain</h1>";

@@ -5,8 +5,10 @@ $CONFIG = array(
     'homedir'       =>  __DIR__ . "/",
     'controllerdir' =>  __DIR__ . "/controllers/",
     'viewsdir'      =>  __DIR__ . "/views/",
-    'homeurl'       => "http://tsoha.elmnainen.fi"
+    'modelsdir'     =>  __DIR__ . "/models/",
+    'homeurl'       =>  "http://tsoha.elmnainen.fi"
 );
+
 
 //dbconfig holds db dsn, username, password
 //get $dbconfig from .gitignored /config to avoid 

@@ -11,5 +11,7 @@ class homemodel {
     
     public function index(){
         
+        return array("Hei", "Kaksi", "Yksi");
+        
     }
 }

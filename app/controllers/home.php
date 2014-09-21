@@ -3,7 +3,7 @@
 class home extends controllerbase{
     
     protected function index(){
-        $output = "<h1>Jee!</h1>";
+        $output = $this->model->index();
         $this->display($output, true);
     }  
 
