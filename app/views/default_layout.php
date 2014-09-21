@@ -52,6 +52,12 @@
                     Kauppalista on tietokantasovellus, joka toimii virtuaalisena muistilistana kauppaostoksista. Yksineläjille sen päätoimintona on nimenomaan toimia mukaan otettavana listana ostoksista. Useamman hengen ruokakunnille ruokalista tarjoaa yhteistoimintomahdollisuuksia, kuten yhteistyössä koottavat ostoslistat,  tarpeiden hankinnan hajauttamiseen ja kulujen kirjanpidon.
                 </p>
                 
+                <h2>Työn tilanne</h2>
+                <p>Valitettavasti MVC vei niin paljon aikaa, etten ehtinyt
+                    tekemään loginia. Ensi palautuksessa sitten...</p>
+                
+                <h2>MVC Output</h2>
+                
                 <?php require($view); ?>
                 
             </section> <!-- main -->

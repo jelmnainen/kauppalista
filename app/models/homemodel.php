@@ -6,12 +6,16 @@
  *
  * @author sanho
  */
-class homemodel {
-    
+class homemodel extends modelbase {
     
     public function index(){
         
-        return array("Hei", "Kaksi", "Yksi");
+        return "";
         
+    }
+    
+    public function login(){
+        
+        return "Login logic will be here one day!";
     }
 }

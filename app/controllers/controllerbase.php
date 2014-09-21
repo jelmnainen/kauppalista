@@ -27,7 +27,7 @@ abstract class controllerbase {
         
         $model = get_class($this) . "model";
         
-        $this->model = new $model;
+        $this->model = new $model($this->db);
         
     }
     
@@ -47,6 +47,10 @@ abstract class controllerbase {
         
         GLOBAL $CONFIG;
         
+        /*
+         * in views/$controller/$action use $output to generate view
+         * in layouts use $view to show generated output
+         */
         $view = $CONFIG["viewsdir"] 
                  . get_class($this) 
                  . '/' . $this->action 

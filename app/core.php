@@ -22,7 +22,6 @@ class core{
         $pdo = new db($CONFIG["dbconfig"]);
         $this->db = $pdo->getConn();
         
-                
         //get controller, action and params
         $this->requested_controller = $this->getRequestedControllerFromURI();
         $this->requested_action     = $this->getRequestedActionFromURI();
@@ -65,7 +64,7 @@ class core{
                                         "page", 
                                         FILTER_SANITIZE_STRING );
 
-        if( strlen($controller) > 0 ){
+        if( strlen($controller) > 0 && $this->userIsLoggedIn() ){
             
             //if user did ask for a specific controller, get it 
             if(file_exists( $CONFIG["controllerdir"] 
@@ -85,7 +84,6 @@ class core{
         return "home";
         
     }
-    
     
     /**
      * Gets the requested action from URL ?action=
@@ -123,5 +121,17 @@ class core{
         
         return $ret;
     }
+    
+    private function userIsLoggedIn(){
+        
+        if(isset($SESSION["user"]["name"])){
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+        
+        
+    }
+    
     
 }    

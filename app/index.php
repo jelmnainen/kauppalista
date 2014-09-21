@@ -13,6 +13,7 @@
     //load core classes
     require_once('core.php');    
     require_once($CONFIG["controllerdir"] . "controllerbase.php");
+    require_once($CONFIG["modelsdir"] . "modelbase.php");
     
     $core = new Core();
     
