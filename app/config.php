@@ -4,6 +4,7 @@
 $CONFIG = array(
     'homedir'       =>  __DIR__ . "/",
     'controllerdir' =>  __DIR__ . "/controllers/",
+    'viewsdir'      =>  __DIR__ . "/views/",
     'homeurl'       => "http://tsoha.elmnainen.fi"
 );
 
@@ -12,8 +13,6 @@ $CONFIG = array(
 //showing db user details to everyone on github
 require_once( $CONFIG["homedir"] . 'config/dbconfig.php');
 $CONFIG["dbconfig"] = $dbconfig;
-
-//mysql:host=mysql5.sigmatic.fi;dbname=juhlisfi_db
 
 
 

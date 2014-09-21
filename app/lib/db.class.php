@@ -7,7 +7,7 @@
 class db {
     
     public $conn;
-    private $error;
+    public $error;
     
     /*
      * 
@@ -19,8 +19,6 @@ class db {
      *      'password': db password
      */
     public function __construct( $dbconfig ){        
-        
-        
         
         try{
             
@@ -34,18 +32,13 @@ class db {
             $this->error = $e;
 
         }
-          
-         
         
     }
     
-    public function test(){
+    public function getConn(){
         
-        $sql = "SELECT * FROM `shoppinglist_items`";
-        
-        //return ($this->dbh->query($sql));
+        return $this->conn;
         
     }
     
-            
 }
