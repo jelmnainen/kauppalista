@@ -58,7 +58,7 @@
                 
                 <h2>MVC Output</h2>
                 
-                <?php require($view); ?>
+                <?php include($view); ?>
                 
             </section> <!-- main -->
         

@@ -64,14 +64,17 @@ class core{
                                         "page", 
                                         FILTER_SANITIZE_STRING );
 
-        if( strlen($controller) > 0 && $this->userIsLoggedIn() ){
+        if( strlen($controller) > 0 ){
             
             //if user did ask for a specific controller, get it 
             if(file_exists( $CONFIG["controllerdir"] 
                             . $controller 
                             . ".php")){
 
+                
+                var_dump("controller: " . $controller);
                 return $controller;
+                
 
             } else {//controller wasn't found
                 
@@ -121,17 +124,5 @@ class core{
         
         return $ret;
     }
-    
-    private function userIsLoggedIn(){
-        
-        if(isset($SESSION["user"]["name"])){
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-        
-        
-    }
-    
     
 }    

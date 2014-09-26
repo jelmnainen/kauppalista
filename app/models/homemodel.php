@@ -18,4 +18,10 @@ class homemodel extends modelbase {
         
         return "Login logic will be here one day!";
     }
+    
+    public function membersonly(){
+        
+        return "This is for members only!";
+        
+    }
 }

@@ -12,4 +12,19 @@ class home extends controllerbase{
         $this->display($output, true);
     }
     
+    protected function membersonly(){
+        
+        if($this->user_is_logged_in()){
+          
+            $output = $this->model->membersonly();
+            $this->display($output, true);
+
+        } else {
+
+            $this->show_loginpage();
+        
+        }
+        
+    }
+    
 }

@@ -13,6 +13,7 @@ abstract class controllerbase {
     protected $params;
     protected $modelfile;
     protected $model;
+    protected $user;
     
     public function __construct( $action, $params, $db ){
         
@@ -23,12 +24,40 @@ abstract class controllerbase {
         $this->db           = $db;
         $this->modelfile    = $CONFIG["modelsdir"] . get_class($this) . "model.php";
         
+        if(isset($_SESSION["user"]) && strlen($_SESSION["user"]["name"]) > 0){
+            
+            $this->user = $_SESSION["user"];
+            
+        } else {
+            
+            $this->user = NULL;
+            
+        }
+        
         require_once($this->modelfile);
         
         $model = get_class($this) . "model";
         
         $this->model = new $model($this->db);
         
+    }
+    
+    /**
+     * 
+     * @return boolean true if user is logged in, false if not
+     */
+    protected function user_is_logged_in(){
+       
+       if(is_null($this->user)){
+           
+           return FALSE;
+           
+       } else {
+           
+           return TRUE;
+           
+       }
+       
     }
     
     public function executeAction(){
@@ -56,6 +85,9 @@ abstract class controllerbase {
                  . '/' . $this->action 
                  . '.php';
         
+        var_dump(get_class($this));
+        var_dump($this->action);
+        
         if ($fullview) {
                 require($CONFIG["viewsdir"] . $layout . ".php" );
         } else {
@@ -63,12 +95,13 @@ abstract class controllerbase {
         }
     }
     
-  
-    protected function index(){
-        
-        $output = "<h1>Korvaa jollain</h1>";
-        $this->display($output, true);                
-        
+    /**
+     * Implemented in base so every controller has access to it. The purpose
+     * is to have a fallback page in case user hasn't logged in.
+     */
+    public function show_loginpage(){
+        global $CONFIG;
+        header("Location:" . $CONFIG["homeurl"] . "?page=login");
     }
     
 }
