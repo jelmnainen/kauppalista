@@ -8,12 +8,12 @@
  */
 abstract class controllerbase {
     
-    protected $db;
-    protected $action;
-    protected $params;
-    protected $modelfile;
-    protected $model;
-    protected $user;
+    public      $db;
+    protected   $action;
+    protected   $params;
+    protected   $modelfile;
+    protected   $model;
+    protected   $user;
     
     public function __construct( $action, $params, $db ){
         
@@ -85,8 +85,6 @@ abstract class controllerbase {
                  . '/' . $this->action 
                  . '.php';
         
-        var_dump(get_class($this));
-        var_dump($this->action);
         
         if ($fullview) {
                 require($CONFIG["viewsdir"] . $layout . ".php" );

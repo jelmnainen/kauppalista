@@ -7,4 +7,12 @@ class loginmodel extends modelbase {
         return "";
         
     }
+    
+    public function login(){
+        return "<h2>This is login</h2>";
+    }
+    
+    public function logout(){
+        return "<h2>This is logout</h2>";
+    }
 }

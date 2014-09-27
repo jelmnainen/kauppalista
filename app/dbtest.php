@@ -27,9 +27,9 @@ try{
     $error = $e;
 
 }
-
+/*
 foreach( $conn->query("SELECT * FROM shoppinglist_items") as $row){
     var_dump($row);
 }
-        
+  */      
 var_dump($conn);

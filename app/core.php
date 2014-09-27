@@ -17,6 +17,8 @@ class core{
 
     public function __construct(){
         
+        global $CONFIG;
+
         //set up db    
         require_once($CONFIG['homedir'] . 'lib/db.class.php');    
         $pdo = new db($CONFIG["dbconfig"]);

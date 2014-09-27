@@ -13,12 +13,12 @@ class db {
      * 
      * Try to create a new PDO DB connection
      * 
-     * @dbconfig array containing 
+     * @param dbconfig array containing 
      *      'dsn':      db data source name
      *      'username': db username
      *      'password': db password
      */
-    public function __construct( $dbconfig ){        
+    public function __construct( $dbconfig ){      
         
         try{
             

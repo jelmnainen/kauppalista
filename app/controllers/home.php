@@ -12,6 +12,7 @@ class home extends controllerbase{
         $this->display($output, true);
     }
     
+    //test if login script denies access to non-logged-in visitors
     protected function membersonly(){
         
         if($this->user_is_logged_in()){

@@ -1,13 +1,16 @@
-<form action="?page=login&action=login" method="post">
-    <ul>
-        <li>
-            Käyttäjätunnus: <input type="text" name="username">
-        </li>
-        <li>
-            Salasana: <input type="password" name="password">
-        </li>
-        <li>
-            <input type="submit" value="Lähetä">
-        </li>
-    </ul>
-</form>
+
+                <ul>
+                    <li><a href="https://github.com/jelmnainen/kauppalista">Työn repositorio</a></li>
+                    <li><a href="https://github.com/jelmnainen/kauppalista/blob/master/doc/dokumentaatio.pdf">Työn dokumentaatio</a></li>
+                </ul>
+                
+                <h2>Työn aihe</h2>
+                        
+                <p>
+                    Kauppalista on tietokantasovellus, joka toimii virtuaalisena muistilistana kauppaostoksista. Yksineläjille sen päätoimintona on nimenomaan toimia mukaan otettavana listana ostoksista. Useamman hengen ruokakunnille ruokalista tarjoaa yhteistoimintomahdollisuuksia, kuten yhteistyössä koottavat ostoslistat,  tarpeiden hankinnan hajauttamiseen ja kulujen kirjanpidon.
+                </p>
+                
+                <h2>Työn tilanne</h2>
+                <p>Valitettavasti MVC vei niin paljon aikaa, etten ehtinyt
+                    tekemään loginia. Ensi palautuksessa sitten...</p>
+                
