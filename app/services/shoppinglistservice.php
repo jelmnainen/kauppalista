@@ -45,9 +45,46 @@ class shoppinglistservice {
         
     }
     
+    public function getSingleList($id){
+        
+        $sql = $this->db->prepare("     SELECT * "
+                . "                     FROM shoppinglist_shoppinglists"
+                . "                     WHERE id = :id");
+        
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        if($sql->execute()){
+            
+            $row = $sql->fetch(PDO::FETCH_ASSOC);
+            return $this->transformRowToObject($row);
+            
+        }
+        
+    }
+    
+    public function modifySingleList($id){
+        
+        $name   = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+        
+        $sql = $this->db->prepare(" UPDATE shoppinglist_shoppinglists"
+                . "                 SET name = :name"
+                . "                 WHERE id = :id");
+        
+        $sql->bindValue(":name", $name, PDO::PARAM_STR);
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        if($sql->execute()){
+            
+            return $this->getSingleList($id);
+            
+        }
+        
+    }
+    
     private function transformRowToObject($row){
         
         $shoppinglistdomain = new shoppinglistdomain();
+        
         $shoppinglistdomain->setActive($row["active"]);
         $shoppinglistdomain->setName($row["name"]);
         $shoppinglistdomain->setid($row["id"]);

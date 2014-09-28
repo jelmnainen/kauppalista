@@ -32,6 +32,18 @@ class shoppinglist extends controllerbase {
     
     protected function modify($model){
         
+        $list = $this->shoppinglistservice->getSingleList($this->params[0]);
+        $model["list"] = $list;
+        $this->display($model, TRUE);       
+        
     }
+    
+    protected function modifyList($model){
+
+        $list = $this->shoppinglistservice->modifySingleList($this->params[0]);
+        $model["list"] = $list;
+        $this->display($model, TRUE);
+        
+    }                
     
 }

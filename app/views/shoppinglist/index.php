@@ -19,7 +19,7 @@ foreach($model["lists"] as $list){
         Päivitetty: <?php echo $list->getUpdated(); ?>
     </li>
     <li>
-        <a href="?page=shoppinglist&action=modify&param=<?php echo $list->getID(); ?>">Muokkaa</a>
+        <a href="?page=shoppinglist&action=modify&params=<?php echo $list->getID(); ?>">Muokkaa</a>
     </li>
 </ul>
 
