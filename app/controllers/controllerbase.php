@@ -22,17 +22,10 @@ abstract class controllerbase {
         $this->action       = $action;
         $this->params       = $params;
         $this->db           = $db;
-        $this->modelfile    = $CONFIG["modelsdir"] . get_class($this) . "model.php";
-        
-        if(isset($_SESSION["user"]) && strlen($_SESSION["user"]["name"]) > 0){
-            
-            $this->user = $_SESSION["user"];
-            
-        } else {
-            
-            $this->user = NULL;
-            
-        }
+        $this->modelfile    = $CONFIG["modelsdir"] 
+                                . get_class($this) 
+                                . "model.php";
+        $this->user = $this->getUserFromSession();
         
         require_once($this->modelfile);
         
@@ -60,9 +53,31 @@ abstract class controllerbase {
        
     }
     
+    /**
+     * Gets user data from $_SESSION
+     * 
+     * @return array user id, name, email
+     */
+    protected function getUserFromSession(){
+        
+        //usernames are always at least 3 charachters long
+        if(         isset(  $_SESSION["user"]) 
+                &&  strlen( $_SESSION["user"]["username"]) > 3)
+            {
+            
+            return $_SESSION["user"];
+            
+            
+        } else {
+            
+            return NULL;
+            
+        }
+    }
+    
     public function executeAction(){
         
-        $this->{$this->action}();
+        $this->{$this->action}([]);
         
     }
     
@@ -72,7 +87,7 @@ abstract class controllerbase {
      * @param mixed $output from model, used in template
      * @param boolean $fullview true = pass $output to layout
      */
-    public function display($output, $fullview, $layout = "default_layout"){
+    public function display($model, $fullview, $layout = "default_layout"){
         
         GLOBAL $CONFIG;
         

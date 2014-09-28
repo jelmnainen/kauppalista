@@ -5,12 +5,9 @@
 
     session_start();
     
-    echo("username: " . $_POST["username"]);
-
     //set up $CONFIG
     GLOBAL $CONFIG;
     require_once( __DIR__ . '/config.php' );  
-    
     
     //load core classes
     require_once('core.php');    
@@ -21,12 +18,6 @@
     
     //load controller
     $controller = $core->getController();
-    
-    /*
-    print_r($core);
-    echo "<br><br>";
-    print_r($controller);
-    */
     
     //execute requested action
     $controller->executeAction();

@@ -18,4 +18,9 @@ class login extends controllerbase {
         $this->display($output, TRUE);
     }
     
+    protected function processLogin(){
+        $output = $this->model->processLogin();
+        $this->display($output, TRUE);
+    }
+    
 }

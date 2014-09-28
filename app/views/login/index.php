@@ -1,20 +1,24 @@
 
 <ul class="form-container" >
     
-    <form id="loginform" action="/?page=login&action=processLogin">
+    <form id="loginform" method="post" action="/?page=login&action=processLogin">
     
         <li>
             <label for="username-field">
-                Username
+                Käyttäjänimi
             </label>
-            <input type="text" id="username-field">
+            <input type="text" name="username" id="username-field">
         </li>
         
         <li>
             <label for="password-field">
-                Password
+                Salasana
             </label>
-            <input type="password" id="password-field">
+            <input type="password" name="password" id="password-field">
+        </li>
+        
+        <li>
+            <input type="submit" value="Kirjaudu">
         </li>
         
     </form>
