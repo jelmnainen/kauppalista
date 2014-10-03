@@ -45,7 +45,32 @@ class shoppinglistservice {
         
     }
     
-    public function getSingleList($id){
+    public function listUsersLists($id){
+        
+        $shoppinglistarray = [];
+        
+        $sql = $this->db->prepare(" SELECT * FROM shoppinglist_shoppinglists as a
+                                    INNER JOIN shoppinglist_owners_to_lists_ref as b 
+                                    ON a.id = b.shoppinglistid
+                                    WHERE b.userid = :id");
+        
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        if($sql->execute()){
+            
+            $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach($rows as $row){
+            
+                $shoppinglistarray[] = $this->transformRowToObject($row);
+                        
+            }
+        }
+        
+        return $shoppinglistarray;
+    }
+    
+    public function showSingleList($id){
         
         $sql = $this->db->prepare("     SELECT * "
                 . "                     FROM shoppinglist_shoppinglists"

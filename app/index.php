@@ -1,5 +1,13 @@
 <?php
 
+    /**
+     * Oh hai, katselmoja!
+     * 
+     * Protippinä tän sotkun ymmärtämiseen siirrän modelit jossain vaiheessa
+     * kokonaan domain/service-kombinaatioiksi, ne ovat ikäänkuin päällekkäisiä
+     * toteutuksia sillä erotuksella että domain/service-malli on fiksumpi
+     */
+
 
     
     //for debug, remove from production

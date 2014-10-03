@@ -14,7 +14,13 @@
 class itemmodel extends modelbase {
 
     private $name;
+    private $ID;
     private $price;
+    private $shop;
+    private $buyer;
+    private $buyerID;
+    private $isBought;
+            
     
     public function getName(){
         return $this->name;
@@ -24,8 +30,44 @@ class itemmodel extends modelbase {
         return $this->price;
     }
     
+    public function getShop(){
+        return $this->shop;
+    }
+    
+    public function getBuyer(){
+        return $this->buyer;
+    }
+    
+    public function getBuyerID(){
+        return $this->$buyerID;
+    }
+    
+    public function getIsBought(){
+        return $this->isBought;
+    }
+    
+    public function getID(){
+        return $this->ID;
+    }
+    
     public function setName($name){
         $this->name = $name;
+    }
+    
+    public function setShop($shop){
+        $this->shop = $shop;
+    }
+    
+    public function setBuyer($name){
+        $this->buyer = $name;
+    }
+    
+    public function setBuyerID($id){
+        $this->$buyerID = $id;
+    }
+    
+    public function setIsBought($bool){
+        $this->isBought = $bool;
     }
     
     public function setPrice($price){

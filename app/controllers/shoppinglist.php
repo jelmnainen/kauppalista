@@ -19,17 +19,37 @@ class shoppinglist extends controllerbase {
     
     public function __construct($action, $params, $db){
         
-        parent::__construct($action, $params, $db);
-        $this->shoppinglistservice = new shoppinglistservice($db);
+        //restrict access to logged in users
+        global $CONFIG;
         
+        if(!is_null($_SESSION["user"])){
+            
+            parent::__construct($action, $params, $db);
+            $this->shoppinglistservice = new shoppinglistservice($db);
+        
+        } else {
+            header("Location: " . $CONFIG["siteurl"] . "/?page=login");
+            die();
+        }
     }
 
     protected function index($model){
-        $lists = $this->shoppinglistservice->listAll();
+        
+        $lists = $this->shoppinglistservice->listUsersLists($_SESSION["user"]["id"]);
         $model['lists'] = $lists;
         $this->display($model, TRUE);
+
     }
     
+    protected function showSingleList($model){
+        
+        $list = $this->shoppinglistservice->showSingleList($this->params[0]);
+        $model["list"] = $list;
+        $this->display($model, TRUE);
+        
+    }
+
+
     protected function modify($model){
         
         $list = $this->shoppinglistservice->getSingleList($this->params[0]);

@@ -1,4 +1,4 @@
-<h1>Kauppalistat:</h1>
+<h1>Kauppalistasi:</h1>
 
 
 <?php
@@ -10,7 +10,9 @@ foreach($model["lists"] as $list){
 
 <ul style="list-style-type:none;">
     <li style="font-weight: bold;">
-        <?php echo htmlspecialchars($list->getName()); ?>
+        <a href="?page=shoppinglist&action=showSingleList&params=<?php echo $list->getID(); ?>">
+            <?php echo htmlspecialchars($list->getName()); ?>
+        </a>
     </li>
     <li>
         <?php echo ($list->getActive() ? "Aktiivinen" : "Epäaktiivinen"); ?>
