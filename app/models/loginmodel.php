@@ -31,10 +31,11 @@ class loginmodel extends modelbase {
         }
     }
     
-    public function logout(){
-        return "<h2>This is logout</h2>";
+    public function processLogout(){
+        unset($_SESSION["user"]);
+        return TRUE;
     }
-    
+  
     
     /**
      * Used to safely process the login input
@@ -109,5 +110,6 @@ class loginmodel extends modelbase {
         }
         
     }
+    
     
 }

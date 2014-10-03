@@ -74,7 +74,6 @@ class core{
                             . ".php")){
 
                 
-                var_dump("controller: " . $controller);
                 return $controller;
                 
 

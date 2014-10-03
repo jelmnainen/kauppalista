@@ -10,10 +10,10 @@ foreach($model["lists"] as $list){
 
 <ul style="list-style-type:none;">
     <li style="font-weight: bold;">
-        <?php echo $list->getName(); ?>
+        <?php echo htmlspecialchars($list->getName()); ?>
     </li>
     <li>
-        Aktiivinen: <?php echo $list->getActive(); ?>
+        <?php echo ($list->getActive() ? "Aktiivinen" : "Epäaktiivinen"); ?>
     </li>
      <li>
         Päivitetty: <?php echo $list->getUpdated(); ?>
@@ -27,4 +27,6 @@ foreach($model["lists"] as $list){
     
 }
 ?>
+
+<a href="?page=shoppinglist&action=addForm">Lisää uusi lista</a>
 

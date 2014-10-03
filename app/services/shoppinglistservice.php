@@ -62,6 +62,29 @@ class shoppinglistservice {
         
     }
     
+    public function addNewList(){
+        
+        $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+        
+        $sql = $this->db->prepare(" INSERT INTO shoppinglist_shoppinglists"
+                . "                     (name, active)"
+                . "                 VALUES"
+                . "                     (:name, 'true')");
+        
+        $sql->bindValue(":name", $name, PDO::PARAM_STR);
+        
+        if($sql->execute()){
+            
+            return "Uusi lista lisättiin onnistuneesti";
+            
+        } else {
+            
+            return "Uutta listaa ei pystytty lisäämään";
+            
+        }
+        
+    }
+    
     public function modifySingleList($id){
         
         $name   = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);

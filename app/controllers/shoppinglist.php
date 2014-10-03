@@ -46,4 +46,14 @@ class shoppinglist extends controllerbase {
         
     }                
     
+    protected function addForm($model){
+        $this->display($model, TRUE);
+    }
+    
+    protected function addNewList($model){
+       $message = $this->shoppinglistservice->addNewList();
+       $model["message"] = $message;
+       $this->display($model, TRUE);
+    }
+    
 }

@@ -23,4 +23,9 @@ class login extends controllerbase {
         $this->display($output, TRUE);
     }
     
+    protected function logout(){
+        $output = $this->model->processLogout();
+        $this->display($output, TRUE);
+    }
+    
 }

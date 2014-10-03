@@ -1,6 +1,15 @@
 
 <ul class="form-container" >
     
+    <p>
+        Jos haluat testata järjestelmää, käytä testitunnuksia!
+        
+        <ul>
+            <li>Käyttäjätunnus: testi</li>
+            <li>Salasana: testi</li>
+        </ul>
+    </p>
+    
     <form id="loginform" method="post" action="/?page=login&action=processLogin">
     
         <li>
