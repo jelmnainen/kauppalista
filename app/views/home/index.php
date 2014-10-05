@@ -15,7 +15,7 @@
 <p>
     Koodi on tällä hetkellä muuten mielestäni ihan selkeää, mutta koska ymmärsin MVC:n aluksi vähän hassusti ja sen jälkeen
     vanhemman käpistelijän johdolla ehkä hieman monimutkaisesti, poikkesin kurssilla esitetystä sen verran,
-    että pidän modelia lähinnä arranyä jonka täytän servicen luomalla domainilla ja vien viewiin.
+    että pidän modelia lähinnä arranyä jonka täytän servicen luomalla domainilla ja vien viewiin. Jossain vaiheessa pitää refaktoroida sen verran, että dependencyt /model-kansioon heitetään ikkunasta ulos. Tällä hetkellä lähinnä etusivu ja osa loginia käyttää näitä.
 </p>
                 
                 <h2>Työn aihe</h2>
