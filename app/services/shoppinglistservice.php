@@ -60,14 +60,19 @@ class shoppinglistservice {
             
             $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
             
-            foreach($rows as $row){
+            foreach($rows as $listRow){
             
-                $shoppinglistarray[] = $this->transformRowToObject($row);
+                $listitems = $this->getListItemsFromRow($listRow["id"]);
+                $shoppinglistarray[] = $this->transformRowToObject($listRow);
                         
             }
         }
         
         return $shoppinglistarray;
+    }
+    
+    public function getListItemsFromRow($id){
+        $sql = "SELECT c.id, c.name, c.shop, c.price, c.buyer, c.buyerID, c.isBought";
     }
     
     public function showSingleList($id){

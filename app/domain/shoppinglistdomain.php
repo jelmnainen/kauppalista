@@ -17,6 +17,7 @@ class shoppinglistdomain {
     private $active;
     private $id;
     private $updated;
+    private $items;
 
     public function getName(){
         return $this->name;
@@ -33,7 +34,13 @@ class shoppinglistdomain {
     public function getUpdated(){
         return $this->updated;
     }
+    
+    public function getItems(){
+        return $this->items;
+    }
 
+    /*** SETTERS ***/
+    
     public function setName($name){
         $this->name = $name;
     }
@@ -48,6 +55,10 @@ class shoppinglistdomain {
 
     public function setUpdated($updated){
         $this->updated = $updated;
+    }
+    
+    public function setItems($newItems){
+        $this->items = $newItems;
     }
 
 }
