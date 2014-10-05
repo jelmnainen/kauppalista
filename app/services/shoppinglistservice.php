@@ -279,6 +279,12 @@ class shoppinglistservice {
     }
     
     public function addItemToList($listId){
+        
+        $name       = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
+        $price      = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_INT);
+        $shop       = filter_input(INPUT_POST, "shop", FILTER_SANITIZE_STRING);
+        $bought    = filter_input(INPUT_POST, "bought", FILTER_SANITIZE_STRING);
+        
         $sql = $this->db->prepare("INSERT INTO shoppinglist_items (name, shop, price, bought) VALUES "
                 . "(:name, :shop, :price, :bought)");
         

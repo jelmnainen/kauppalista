@@ -55,10 +55,7 @@ class itemservice {
     public function modifyItem($id){
         //TODO:     add buyer edition
         //          add check for right user
-        
-        var_dump($_POST);
-        var_dump($id);
-        
+
         $name       = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
         $price      = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_INT);
         $shop       = filter_input(INPUT_POST, "shop", FILTER_SANITIZE_STRING);

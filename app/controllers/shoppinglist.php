@@ -129,7 +129,7 @@ class shoppinglist extends controllerbase {
         
     }
     
-    protected function addItem($model){
+    protected function addItemToList($model){
         $this->shoppinglistservice->addItemToList($this->params[0]);
         $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
         $this->display($model, TRUE);
