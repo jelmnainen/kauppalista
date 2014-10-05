@@ -271,12 +271,36 @@ class shoppinglistservice {
     }
     
     public function deleteItemFromList($id){
-        var_dump($id);
         $sql = $this->db->prepare("DELETE FROM shoppinglist_items_to_lists_ref "
                                 . "WHERE itemid = :id");
         $sql->bindValue(":id", $id, PDO::PARAM_STR);
         
         return($sql->execute());
+    }
+    
+    public function addItemToList($listId){
+        $sql = $this->db->prepare("INSERT INTO shoppinglist_items (name, shop, price, bought) VALUES "
+                . "(:name, :shop, :price, :bought)");
+        
+        $sql->bindValue(":name", $name, PDO::PARAM_STR);
+        $sql->bindValue(":shop", $shop, PDO::PARAM_STR);
+        $sql->bindValue(":price", $price, PDO::PARAM_INT);
+        $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
+        
+        if($sql->execute()){
+            
+            $bindsql = $this->db->prepare("INSERT INTO shoppinglist_items_to_lists_ref (itemid, shoppinglistid) VALUES "
+                    . "(:itemid, :shoppinglistid)");
+            
+            $itemid = $this->db->lastInsertId();
+            
+            $bindsql->bindValue(":itemid", $itemid, PDO::PARAM_INT);
+            $bindsql->bindValue(":shoppinglistid", $listId, PDO::PARAM_INT);
+            
+            return $bindsql->execute();
+            
+        }
+        
     }
     
     

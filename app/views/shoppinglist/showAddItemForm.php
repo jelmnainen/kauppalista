@@ -1,7 +1,7 @@
 
 <h2>Lisää ostosta</h2>
 
-<form method="POST" action="?page=shoppinglist&action=addItem&params=<?php echo $model["id"]; ?>">
+<form method="POST" action="?page=shoppinglist&action=addItemToList&params=<?php echo $model["id"]; ?>">
 
     <ul>
         <li>
