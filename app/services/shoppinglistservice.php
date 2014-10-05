@@ -269,4 +269,15 @@ class shoppinglistservice {
         
         return $items;
     }
+    
+    public function deleteItemFromList($id){
+        var_dump($id);
+        $sql = $this->db->prepare("DELETE FROM shoppinglist_items_to_lists_ref "
+                                . "WHERE itemid = :id");
+        $sql->bindValue(":id", $id, PDO::PARAM_STR);
+        
+        return($sql->execute());
+    }
+    
+    
 }

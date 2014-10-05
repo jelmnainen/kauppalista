@@ -116,4 +116,17 @@ class shoppinglist extends controllerbase {
        $this->display($model, TRUE);
     }
     
+    protected function deleteItemFromList($model){
+        $this->shoppinglistservice->deleteItemFromList($this->params[0]);
+        $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+        $this->display($model, TRUE);
+    }
+    
+    protected function showAddItemForm($model){
+        
+        $model["id"] = $this->params[0];
+        $this->display($model, TRUE);
+        
+    }
+    
 }

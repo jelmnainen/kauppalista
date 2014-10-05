@@ -40,4 +40,8 @@
                             Muokkaa
                         </a>
                     </li>
+                    <li>
+                        <a href="?page=shoppinglist&action=deleteItemFromList&params=<?php echo $item->getID(); ?>">
+                            Poista ostos
+                        </a>
                 </ul>
