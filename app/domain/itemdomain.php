@@ -11,7 +11,7 @@
  *
  * @author sanho
  */
-class itemmodel extends modelbase {
+class itemdomain {
 
     private $name;
     private $ID;
@@ -21,7 +21,7 @@ class itemmodel extends modelbase {
     private $buyerID;
     private $isBought;
             
-    
+    /*** GETTERS ***/
     public function getName(){
         return $this->name;
     }
@@ -48,6 +48,12 @@ class itemmodel extends modelbase {
     
     public function getID(){
         return $this->ID;
+    }
+    
+    /*** SETTERS ***/
+    
+    public function setID($id){
+        $this->ID = $id;
     }
     
     public function setName($name){

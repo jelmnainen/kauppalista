@@ -1,14 +1,10 @@
 <?php
 global $CONFIG;
 include_once($CONFIG["homedir"] . "domain/shoppinglistdomain.php");
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+include_once($CONFIG["homedir"] . "domain/itemdomain.php");
 
 /**
- * Description of shoppinglistservice
+ * Provides database services for lists in shoppinglist
  *
  * @author sanho
  */
@@ -45,7 +41,7 @@ class shoppinglistservice {
         
     }
     
-    public function listUsersLists($id){
+    public function getUsersLists($id){
         
         $shoppinglistarray = [];
         
@@ -63,19 +59,52 @@ class shoppinglistservice {
             foreach($rows as $listRow){
             
                 $listitems = $this->getListItemsFromRow($listRow["id"]);
-                $shoppinglistarray[] = $this->transformRowToObject($listRow);
+                $shoppinglistarray[] = $this->transformRowToObject($listRow, $listitems);
                         
             }
         }
         
         return $shoppinglistarray;
     }
+ 
+    /**
+     * Returns the items belonging to a specified list as an array
+     * @param int $id the id of list the items belong to 
+     */
     
     public function getListItemsFromRow($id){
-        $sql = "SELECT c.id, c.name, c.shop, c.price, c.buyer, c.buyerID, c.isBought";
+        
+        $items = [];
+        
+        $sql = $this->db->prepare("SELECT c.id, c.name, c.shop, c.price, c.buyerID, c.bought "
+                . "FROM shoppinglist_shoppinglists AS a "
+                . "INNER JOIN shoppinglist_items_to_lists_ref AS b "
+                . "ON a.id = b.shoppinglistid "
+                . "INNER JOIN shoppinglist_items AS c "
+                . "ON b.itemid = c.id "
+                . "WHERE a.id = :id");
+        
+        $sql->bindValue("id", $id, PDO::PARAM_INT);
+        
+        if($sql->execute()){
+        
+            $items = $sql->fetchAll(PDO::FETCH_ASSOC);
+            
+        }
+        
+        return $items;        
+        
     }
     
-    public function showSingleList($id){
+    /**
+     * Returns an shoppinglist object whose id = $id
+     * 
+     * @param int $id the id of requested list
+     * @return shoppinglist 
+     */
+    public function getSingleList($id){
+        //TODO: should write a check to see if the user requesting this entity
+        //is owner or collaborator
         
         $sql = $this->db->prepare("     SELECT * "
                 . "                     FROM shoppinglist_shoppinglists"
@@ -84,9 +113,10 @@ class shoppinglistservice {
         $sql->bindValue(":id", $id, PDO::PARAM_INT);
         
         if($sql->execute()){
-            
+                        
             $row = $sql->fetch(PDO::FETCH_ASSOC);
-            return $this->transformRowToObject($row);
+            $listitems = $this->getListItemsFromRow($row["id"]);
+            return $this->transformRowToObject($row, $listitems);
             
         }
         
@@ -96,27 +126,46 @@ class shoppinglistservice {
         
         $name = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
         
-        $sql = $this->db->prepare(" INSERT INTO shoppinglist_shoppinglists"
-                . "                     (name, active)"
+        $sql = $this->db->prepare(" INSERT INTO shoppinglist_shoppinglists "
+                . "                     (name, active) "
                 . "                 VALUES"
-                . "                     (:name, 'true')");
+                . "                     (:name, 'true') ");
         
         $sql->bindValue(":name", $name, PDO::PARAM_STR);
         
         if($sql->execute()){
             
-            return "Uusi lista lisättiin onnistuneesti";
+            $id = $this->db->lastInsertID();
+            $bindsql = $this->db->prepare("INSERT INTO shoppinglist_owners_to_lists_ref "
+                    . "(userid, shoppinglistid) "
+                    . "VALUES "
+                    . "(:userid, :shoppinglistid)");
+            
+            $bindsql->bindValue(":userid", $_SESSION["user"]["id"], PDO::PARAM_INT);
+            $bindsql->bindValue(":shoppinglistid", $id, PDO::PARAM_INT);
+            
+            if($bindsql->execute()){
+                
+                return TRUE;
+                
+            }
             
         } else {
             
-            return "Uutta listaa ei pystytty lisäämään";
+            return FALSE;
             
         }
         
     }
     
+    /**
+     * Modify list where id = $id
+     * @param int $id
+     * @return boolean  TRUE,   if modification succeeded
+     *                  FALSE,  if modification didn't succeed
+     */
     public function modifySingleList($id){
-        
+        //TODO: add check for right user
         $name   = filter_input(INPUT_POST, "name", FILTER_SANITIZE_STRING);
         
         $sql = $this->db->prepare(" UPDATE shoppinglist_shoppinglists"
@@ -128,13 +177,65 @@ class shoppinglistservice {
         
         if($sql->execute()){
             
-            return $this->getSingleList($id);
+            return TRUE;
+            
+        } else {
+            
+            return FALSE;
             
         }
         
     }
     
-    private function transformRowToObject($row){
+    /**
+     * Function deletes a single list
+     * @param int $id the id of the list to be deleted
+     * @return boolean  TRUE  if list was deleted
+     *                  FALSE if not
+     */
+    public function deleteSingleList($id){
+        //TODO: write a function to check if this list belongs to the user
+        //trying to delete it
+        //TODO: write a function deleting all items that belong to a list
+        
+        $itemrefdel = $this->db->prepare("DELETE FROM shoppinglist_items_to_lists_ref "
+                                    . "WHERE shoppinglistid = :id");
+        
+        $itemrefdel->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        if($itemrefdel->execute()){
+            
+            $listdel = $this->db->prepare("DELETE FROM shoppinglist_shoppinglists "
+                    . "WHERE id = :id");
+            
+            $listdel->bindValue(":id", $id, PDO::PARAM_INT);
+            
+            if($listdel->execute()){
+                
+                return TRUE;
+                
+            } else {
+                
+                return FALSE;
+                
+            }
+            
+        }
+        
+    }
+    
+    /**
+     * Transforms shoppinglist SQL reprepsentation into shoppinglist object
+     * 
+     * @param mixed $row        an associative array containing SQL values of 
+     *                          single list
+     * @param mixed $listitems  an associative array containing an array of 
+     *                          items that belong to $row["id"] list
+     *                          
+     * @return $shoppinglistdomain  an shoppinglist object created by parameter
+     *                              values
+     */
+    private function transformRowToObject($row, $listitems){
         
         $shoppinglistdomain = new shoppinglistdomain();
         
@@ -142,18 +243,30 @@ class shoppinglistservice {
         $shoppinglistdomain->setName($row["name"]);
         $shoppinglistdomain->setid($row["id"]);
         $shoppinglistdomain->setUpdated($row["updated"]);
+        $shoppinglistdomain->setItems($this->transformListItemsToObjects($listitems));
         
         return $shoppinglistdomain;
         
+    }
+    
+    private function transformListItemsToObjects($itemsarray){
         
+        $items = [];
+        
+        foreach($itemsarray as $itemrow){
+            
+            $item = new itemdomain();
+            $item->setName($itemrow["name"]);
+            $item->setID($itemrow["id"]);
+            $item->setPrice($itemrow["price"]);
+            $item->setShop($itemrow["shop"]);
+            $item->setBuyer($itemrow["buyer"]);
+            $item->setIsBought($itemrow["isBought"]);
+            
+            $items[] = $item;          
+            
+        }
+        
+        return $items;
     }
 }
-
-      /*
-        $sql = $this->db->prepare( "SELECT * FROM shoppinglist_shoppinglists AS a "
-        . "LEFT JOIN shoppinglist_items_to_lists_ref AS b "
-        . "ON a.id = b.shoppinglistid "
-        . "LEFT JOIN shoppinglist_items AS c "
-        . "on b.itemid = c.id"
-                . "WHERE a.id = :id");
-        */

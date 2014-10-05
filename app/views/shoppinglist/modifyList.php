@@ -1,9 +1,10 @@
 <?php
 
 $list = $model["list"];
+$message = $model["message"];
 
 ?>
-
+<h2><?php echo $message; ?></h2>
 <h2>Muokkaa <?php echo $list->getName(); ?>a</h2>
 <form method="post" action="?page=shoppinglist&action=modifyList&params=<?php echo $list->getID(); ?>">
     <ul>

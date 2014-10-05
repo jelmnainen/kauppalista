@@ -1,3 +1,10 @@
+DROP TABLE shoppinglist_owners_to_lists_ref;
+DROP TABLE shoppinglist_collaborators_to_lists_ref;
+DROP TABLE shoppinglist_items_to_lists_ref;
+DROP TABLE shoppinglist_items;
+DROP TABLE shoppinglist_users;
+DROP TABLE shoppinglist_shoppinglists;
+
 CREATE TABLE shoppinglist_users(
 	id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(255) NOT NULL,
@@ -69,3 +76,4 @@ CREATE TABLE shoppinglist_items_to_lists_ref(
 		ON UPDATE CASCADE
 	)DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 	
+

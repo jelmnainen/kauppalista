@@ -2,11 +2,7 @@
 
 global $CONFIG;
 include($CONFIG["homedir"] . "services/shoppinglistservice.php");
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * Description of shoppinglist
@@ -35,7 +31,7 @@ class shoppinglist extends controllerbase {
 
     protected function index($model){
         
-        $lists = $this->shoppinglistservice->listUsersLists($_SESSION["user"]["id"]);
+        $lists = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
         $model['lists'] = $lists;
         $this->display($model, TRUE);
 
@@ -43,7 +39,7 @@ class shoppinglist extends controllerbase {
     
     protected function showSingleList($model){
         
-        $list = $this->shoppinglistservice->showSingleList($this->params[0]);
+        $list = $this->shoppinglistservice->getSingleList($this->params[0]);
         $model["list"] = $list;
         $this->display($model, TRUE);
         
@@ -60,19 +56,63 @@ class shoppinglist extends controllerbase {
     
     protected function modifyList($model){
 
-        $list = $this->shoppinglistservice->modifySingleList($this->params[0]);
-        $model["list"] = $list;
+        if($this->shoppinglistservice->modifySingleList($this->params[0])){
+            
+            $model["list"] = $this->shoppinglistservice->getSingleList($this->params[0]);
+            $model["message"] = "Muokkaus onnistui!";
+            
+        } else {
+            
+            $model["list"] = $this->shoppinglistservice->getSingleList($this->params[0]);
+            $model["message"] = "Muokkaus epäonnistui.";
+                        
+        }
+        
         $this->display($model, TRUE);
         
-    }                
+    }  
+    
+    protected function deleteList($model){
+        
+        if($this->shoppinglistservice->deleteSingleList($this->params[0])){
+            
+            $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            $model["success"] = TRUE;
+            $model["message"] = "Poisto onnistui!";
+            
+        } else {
+            
+            $model["list"] = $this->shoppinglistservice->getSingleList($this->params[0]);
+            $model["success"] = FALSE;
+            $model["message"] = "Poisto epäonnistui.";
+            
+        }
+        
+        $this->display($model, TRUE);
+        
+    }
     
     protected function addForm($model){
         $this->display($model, TRUE);
     }
     
     protected function addNewList($model){
-       $message = $this->shoppinglistservice->addNewList();
-       $model["message"] = $message;
+       
+        if($this->shoppinglistservice->addNewList()){
+            
+            $id = $this->db->lastInsertId();
+            $model["success"] = TRUE;
+            $model["message"] = "Uusi lista lisättiin onnistuneesti!";
+            $model["list"] = $this->shoppinglistservice->getSingleList($id);
+            
+        } else {
+            
+           $model["success"] = FALSE;
+           $model["message"] = "Uutta listaa ei voitu luoda";
+           $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            
+        }
+        
        $this->display($model, TRUE);
     }
     

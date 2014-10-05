@@ -5,10 +5,12 @@
 
 foreach($model["lists"] as $list){
     
+    $items = $list->getItems();
+    
 
     ?>
 
-<ul style="list-style-type:none;">
+<ul class="single-shoppinglist" style="list-style-type:none;">
     <li style="font-weight: bold;">
         <a href="?page=shoppinglist&action=showSingleList&params=<?php echo $list->getID(); ?>">
             <?php echo htmlspecialchars($list->getName()); ?>
@@ -23,11 +25,33 @@ foreach($model["lists"] as $list){
     <li>
         <a href="?page=shoppinglist&action=modify&params=<?php echo $list->getID(); ?>">Muokkaa</a>
     </li>
+    <li>
+        <a href="?page=shoppinglist&action=deleteList&params=<?php echo $list->getID(); ?>">Poista</a>
+    </li>
+    <li>
+        <ul class="shoppinglist-items-listing">
+            <?php foreach($items as $item){
+                ?>
+            <li>
+                <?php
+                    include("singleItemAsULelement.php");
+                ?>
+            </li>
+            
+                <?php
+            
+            } //end single list items listing
+            
+            ?>
+            
+        </ul>
+    </li>
 </ul>
 
     <?php
     
-}
+} // end items
+
 ?>
 
 <a href="?page=shoppinglist&action=addForm">Lisää uusi lista</a>
