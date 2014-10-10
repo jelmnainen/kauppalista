@@ -13,7 +13,7 @@
         
         <p class="byline"> Viimeksi muokattu: <?php echo $list->getUpdated(); ?></p>
         
-        <ul class="shoppinglist-items-listing">
+        <ul class="shoppinglist-items-listing list-group">
             <?php 
                 foreach($items as $item){
                     ?>

@@ -1,22 +1,35 @@
-<ul class="shoppinglist-items-listing-single-item">
-                    <li>
-                        <?php echo $item->getName(); ?>
-                    </li>
-                    
-                    <?php
-                        echo (!empty($item->getPrice())
-                            ?     '<li>Hinta: ' 
-                                    . $item->getPrice() 
-                                . '€</li>' 
-                                    
+<?php
+
+    $status = ($item->getIsBought() ? "list-group-item-success" : "list-group-item-warning");
+    
+    $price = ( !empty($item->getPrice())
+                            ?  ": " . $item->getPrice() . "€" 
                             : '' 
                         ); 
-                    ?>
+    
+?>
+
+<ul class="shoppinglist-items-listing-single-item list-group">
+                    <li class="list-group-item <?php echo $status; ?> ">
+                        <?php 
+                            echo $item->getName() 
+                                    . $price ; 
+                        ?>
+                        <a class="text-right" href="?page=shoppinglist&action=setItemToBought&params=<?php echo $item->getID(); ?>">
+                            <span class="glyphicon glyphicon-ok btn-success btn-xs"></span>
+                        </a>
+                        <a href="?page=item&action=showModifyForm&params=<?php echo $item->getID(); ?>">
+                            <span class="glyphicon glyphicon-pencil btn-xs"></span>
+                        </a>
+                        <a class="text-right" href="?page=shoppinglist&action=deleteItemFromList&params=<?php echo $item->getID(); ?>">
+                            <span class="glyphicon glyphicon-remove btn-danger btn-xs"></span>
+                        </a>
+                    </li>
                     
 
                     <?php
                         echo (!empty($item->getShop()) 
-                                ?     '<li>Kauppa: ' 
+                                ?     '<li class="list-group-item">Kauppa: ' 
                                         . $item->getShop() 
                                     . '</li>'
                                 
@@ -26,22 +39,12 @@
        
                      <?php 
                         echo (!empty($item->getBuyer()) 
-                                ?     '<li>' . 
+                                ?     '<li class="list-group-item">' . 
                                         $item->getBuyer()
                                     . '</li>'
                                 : ''
                         ); 
                     ?>
-                    <li>
-                        <?php echo ($item->getIsBought() ? 'Ostettu' : 'Ei ostettu'); ?>
-                    </li>
-                    <li>
-                        <a href="?page=item&action=showModifyForm&params=<?php echo $item->getID(); ?>">
-                            Muokkaa
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?page=shoppinglist&action=deleteItemFromList&params=<?php echo $item->getID(); ?>">
-                            Poista ostos
-                        </a>
+                    
+                        
                 </ul>

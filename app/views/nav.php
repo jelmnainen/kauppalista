@@ -1,6 +1,6 @@
 
 <nav id="main navigation">
-    <ul>
+    <ul class="nav nav-pills nav-justified">
         <?php 
         
         //show different nav for users depending on their login status

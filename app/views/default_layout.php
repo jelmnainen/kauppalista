@@ -11,10 +11,10 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="style/css/normalize.min.css">
-        <link rel="stylesheet" href="style/css/main.css">
+        <link rel="stylesheet" href="style/css/bootstrap.css">
 
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="style/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        
     </head>
     <body> 
         <!--[if lt IE 7]>
@@ -23,45 +23,56 @@
         
         <!-- start page -->
         
-        <section id="header">
-            
-            <section id="masthead">
-                
-                <h1 id="site-title">Tietokantasovelluksen esittelysivu: Kauppalista</h1>
-                    
-            </section><!-- masthead -->
-            
-            <section id="navigation">
-                <?php require_once('nav.php'); ?>
-            </section><!-- navigation -->
-            
-        </section><!-- header -->
-        
         <div class="container">
             
-            <section id="main">
-                                
-                <?php include($view); ?>
+            <?php include_once("message.php"); ?>
+            
+            <section id="masthead" class="row">
                 
-            </section> <!-- main -->
-        
-        </div> <!-- container -->
-            
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-            <script>window.jQuery || document.write('<script src="style/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+                <div class="col-sm-12">
 
-            <script src="style/js/main.js"></script>
+                    <h1 id="site-title">Tietokantasovelluksen esittelysivu: Kauppalista</h1>
+                    
+                </div>
+                
+            </section>
             
-        
-        
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+            <section id="navigation" class="row">
+                
+                <div class="col-sm-12">
+                
+                    <?php require_once('nav.php'); ?>
+                    
+                </div>
+
+            </section><!-- navigation -->
+
+            <section class="row" id="main-content">
+
+                <div class="col-sm-12">
+
+                    <?php include($view); ?>
+
+                </id> <!-- main -->
+
+            </section> <!-- container -->
+
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                <script>window.jQuery || document.write('<script src="style/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+
+                <script src="style/js/main.js"></script>
+                
+
+
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+            <script>
+                (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+                function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+                e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+                e.src='//www.google-analytics.com/analytics.js';
+                r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+                ga('create','UA-XXXXX-X');ga('send','pageview');
+            </script>
+        </div>
     </body>
 </html>

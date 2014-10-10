@@ -100,6 +100,7 @@ abstract class controllerbase {
                  . '/' . $this->action 
                  . '.php';
         
+        $model["message"] = "hei!";
         
         if ($fullview) {
                 require($CONFIG["viewsdir"] . $layout . ".php" );
