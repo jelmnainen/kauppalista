@@ -66,6 +66,32 @@ class shoppinglistservice {
         
         return $shoppinglistarray;
     }
+    
+    public function getUsersCollabLists($id){
+        
+        $shoppinglistarray = [];
+        
+        $sql = $this->db->prepare(" SELECT * FROM shoppinglist_shoppinglists as a
+                                    INNER JOIN shoppinglist_collaborators_to_lists_ref as b 
+                                    ON a.id = b.shoppinglistid
+                                    WHERE b.userid = :id");
+        
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        if($sql->execute()){
+            
+            $rows = $sql->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach($rows as $listRow){
+            
+                $listitems = $this->getListItemsFromRow($listRow["id"]);
+                $shoppinglistarray[] = $this->transformRowToObject($listRow, $listitems);
+                        
+            }
+        }
+        
+        return $shoppinglistarray;
+    }
  
     /**
      * Returns the items belonging to a specified list as an array
@@ -82,7 +108,8 @@ class shoppinglistservice {
                 . "ON a.id = b.shoppinglistid "
                 . "INNER JOIN shoppinglist_items AS c "
                 . "ON b.itemid = c.id "
-                . "WHERE a.id = :id");
+                . "WHERE a.id = :id "
+                . "ORDER BY c.bought DESC");
         
         $sql->bindValue("id", $id, PDO::PARAM_INT);
         
@@ -136,6 +163,7 @@ class shoppinglistservice {
         if($sql->execute()){
             
             $id = $this->db->lastInsertID();
+
             $bindsql = $this->db->prepare("INSERT INTO shoppinglist_owners_to_lists_ref "
                     . "(userid, shoppinglistid) "
                     . "VALUES "
@@ -145,16 +173,54 @@ class shoppinglistservice {
             $bindsql->bindValue(":shoppinglistid", $id, PDO::PARAM_INT);
             
             if($bindsql->execute()){
-                
-                return TRUE;
+
+                return $id;
                 
             }
             
         } else {
             
+            
+            
             return FALSE;
             
         }
+        
+    }
+    
+    private function getUserId($username){
+        
+        $sql = $this->db->prepare("SELECT id FROM shoppinglist_users WHERE username = :username");
+        $sql->bindValue(":username", $username, PDO::PARAM_STR);
+        
+        if($sql->execute()){
+            
+            $row = $sql->fetch(PDO::FETCH_ASSOC);
+            return $row["id"];
+            
+        }
+        
+        return FALSE;
+    }
+    
+    public function addCollaboratorToList($id_unsafe){
+        
+        $shoppinglistid = filter_var($id_unsafe, FILTER_VALIDATE_INT);
+        $username       = filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING);
+        
+        $userid     = $this->getUserId($username);
+        
+        $sql = $this->db->prepare(""
+                . "INSERT INTO "
+                .   "shoppinglist_collaborators_to_lists_ref "
+                .   "(userid, shoppinglistid) "
+                . "VALUES "
+                .   "(:userid, :shoppinglistid) ");
+        
+        $sql->bindValue(":userid", $userid, PDO::PARAM_INT);
+        $sql->bindValue(":shoppinglistid", $shoppinglistid, PDO::PARAM_INT);
+        
+        return $sql->execute();
         
     }
     
@@ -261,7 +327,7 @@ class shoppinglistservice {
             $item->setPrice($itemrow["price"]);
             $item->setShop($itemrow["shop"]);
             $item->setBuyer($itemrow["buyer"]);
-            $item->setIsBought($itemrow["isBought"]);
+            $item->setIsBought($itemrow["bought"]);
             
             $items[] = $item;          
             
@@ -285,28 +351,61 @@ class shoppinglistservice {
         $shop       = filter_input(INPUT_POST, "shop", FILTER_SANITIZE_STRING);
         $bought    = filter_input(INPUT_POST, "bought", FILTER_SANITIZE_STRING);
         
-        $sql = $this->db->prepare("INSERT INTO shoppinglist_items (name, shop, price, bought) VALUES "
-                . "(:name, :shop, :price, :bought)");
-        
-        $sql->bindValue(":name", $name, PDO::PARAM_STR);
-        $sql->bindValue(":shop", $shop, PDO::PARAM_STR);
-        $sql->bindValue(":price", $price, PDO::PARAM_INT);
-        $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
-        
-        if($sql->execute()){
+        if($this->areValidItemValues($name, $price, $shop)){
+
+            $sql = $this->db->prepare("INSERT INTO shoppinglist_items (name, shop, price, bought) VALUES "
+                    . "(:name, :shop, :price, :bought)");
+
+            $sql->bindValue(":name", $name, PDO::PARAM_STR);
+            $sql->bindValue(":shop", $shop, PDO::PARAM_STR);
+            $sql->bindValue(":price", $price, PDO::PARAM_INT);
+            $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
+
+            if($sql->execute()){
+
+                $bindsql = $this->db->prepare("INSERT INTO shoppinglist_items_to_lists_ref (itemid, shoppinglistid) VALUES "
+                        . "(:itemid, :shoppinglistid)");
+
+                $itemid = $this->db->lastInsertId();
+
+                $bindsql->bindValue(":itemid", $itemid, PDO::PARAM_INT);
+                $bindsql->bindValue(":shoppinglistid", $listId, PDO::PARAM_INT);
+
+                return $bindsql->execute();
+
+            }
             
-            $bindsql = $this->db->prepare("INSERT INTO shoppinglist_items_to_lists_ref (itemid, shoppinglistid) VALUES "
-                    . "(:itemid, :shoppinglistid)");
+        } else { //item values weren't valid
             
-            $itemid = $this->db->lastInsertId();
-            
-            $bindsql->bindValue(":itemid", $itemid, PDO::PARAM_INT);
-            $bindsql->bindValue(":shoppinglistid", $listId, PDO::PARAM_INT);
-            
-            return $bindsql->execute();
+            return FALSE;
             
         }
         
+    }
+    
+    public function areValidItemValues($name, $price = NULL, $shop = NULL){
+        
+        $ok = TRUE;
+        
+        if(!isset($name) || strlen($name) < 1){
+            
+            $ok = FALSE;
+            
+        }
+        
+        if(isset($price) && $price < 0){
+            
+            $ok = FALSE;
+            
+        }
+        
+        if(isset($shop) && strlen($shop) < 0){
+            
+            $ok = FALSE;
+            
+        }
+        
+        return $ok;
     }
     
     

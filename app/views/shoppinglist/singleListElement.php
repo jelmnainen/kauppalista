@@ -1,6 +1,5 @@
 <?php
     
-    $list = $model["list"];
     $items = $list->getItems();
 
 ?>
@@ -11,7 +10,10 @@
     
     <div class="single-list-inner">
         
-        <p class="byline"> Viimeksi muokattu: <?php echo $list->getUpdated(); ?></p>
+        <p class="byline">
+            Viimeksi muokattu: <?php echo $list->getUpdated(); ?><br />
+            <?php echo ($list->getActive() ? "Aktiivinen" : "Epäaktiivinen"); ?><br />
+        </p>
         
         <ul class="shoppinglist-items-listing list-group">
             <?php 
@@ -38,8 +40,16 @@
             
         </ul>
         
-        <a href="?page=item&action=addItemToList&params=<?php echo $list->getID(); ?>">
+        <a href="?page=item&action=showAddItemToListForm&params=<?php echo $list->getID(); ?>">
             Lisää uusi ostos listalle
+        </a>
+        <br />
+        <a href="?page=shoppinglist&action=showAddCollaboratorForm&params=<?php echo $list->getID(); ?>">
+            Lisää listalle kollabori
+        </a>
+        <br />
+        <a href="?page=shoppinglist&action=deleteList&params=<?php echo $list->getID(); ?>">
+            Poista lista
         </a>
         
 

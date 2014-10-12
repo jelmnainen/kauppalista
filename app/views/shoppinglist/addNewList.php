@@ -1,12 +1,10 @@
-<h2>
-    <?php echo $model["message"] ; ?>
-</h2>
-
 <?php
     
     if($model["success"]){ //new list was added succesfully
+
+        $list = $model["list"];
         
-        require_once("showSingleList.php");
+        require_once("singleListElement.php");
         
     } else { // new list wasn't added
         

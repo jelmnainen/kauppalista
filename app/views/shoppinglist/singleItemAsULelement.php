@@ -1,6 +1,9 @@
 <?php
 
-    $status = ($item->getIsBought() ? "list-group-item-success" : "list-group-item-warning");
+    //isBought is a string...
+    $isBought = ($item->getIsBought() === "true" ? TRUE : FALSE); 
+
+    $status = ($isBought ? "list-group-item-success" : "list-group-item-warning");
     
     $price = ( !empty($item->getPrice())
                             ?  ": " . $item->getPrice() . "€" 
@@ -15,9 +18,21 @@
                             echo $item->getName() 
                                     . $price ; 
                         ?>
-                        <a class="text-right" href="?page=shoppinglist&action=setItemToBought&params=<?php echo $item->getID(); ?>">
-                            <span class="glyphicon glyphicon-ok btn-success btn-xs"></span>
-                        </a>
+                        
+                        <?php if(!$isBought) { ?>
+                        
+                            <a class="text-right" href="?page=shoppinglist&action=itemHasBeenBought&params=<?php echo $item->getID(); ?>">
+                                <span class="glyphicon glyphicon-ok btn-success btn-xs"></span>
+                            </a>
+                        
+                        <?php } else { ?>
+                        
+                            <a class="text-right" href="?page=shoppinglist&action=setItemToNotBought&params=<?php echo $item->getID(); ?>">
+                                <span class="glyphicon glyphicon-chevron-up btn-warning btn-xs"></span>
+                            </a>
+                        
+                        <?php } ?>
+                        
                         <a href="?page=item&action=showModifyForm&params=<?php echo $item->getID(); ?>">
                             <span class="glyphicon glyphicon-pencil btn-xs"></span>
                         </a>

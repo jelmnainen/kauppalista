@@ -61,29 +61,70 @@ class itemservice {
         $shop       = filter_input(INPUT_POST, "shop", FILTER_SANITIZE_STRING);
         $bought    = filter_input(INPUT_POST, "bought", FILTER_SANITIZE_STRING);
         
-        $sql = $this->db->prepare("UPDATE shoppinglist_items "
-                . "SET "
-                . "name = :name, "
-                . "shop = :shop, "
-                . "price = :price, "
-                . "bought = :bought "
-                . "WHERE id = :id");
-        
-        $sql->bindValue(":name", $name, PDO::PARAM_STR);
-        $sql->bindValue(":shop", $shop, PDO::PARAM_STR);
-        $sql->bindValue(":price", $price, PDO::PARAM_INT);
-        $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
-        $sql->bindValue(":id", $id, PDO::PARAM_INT);
-        
-        if($sql->execute()){
+        if($this->itemValuesAreOK($name, $price, $shop)){
+
+            $sql = $this->db->prepare("UPDATE shoppinglist_items "
+                    . "SET "
+                    . "name = :name, "
+                    . "shop = :shop, "
+                    . "price = :price, "
+                    . "bought = :bought "
+                    . "WHERE id = :id");
+
+            $sql->bindValue(":name", $name, PDO::PARAM_STR);
+            $sql->bindValue(":shop", $shop, PDO::PARAM_STR);
+            $sql->bindValue(":price", $price, PDO::PARAM_INT);
+            $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
+            $sql->bindValue(":id", $id, PDO::PARAM_INT);
+
+            return $sql->execute();
             
-            return TRUE;
-            
-        } else {
+        } else { //values were bad
             
             return FALSE;
             
         }
+        
+    }
+    
+    private function itemValuesAreOK($name, $price, $shop){
+        
+        if(     strlen($name) > 0 &&
+                $price > 0 ){
+            
+            return TRUE;
+            
+        }
+        
+        return FALSE;
+        
+    }
+    
+    public function itemHasBeenBought($id_unsafe){
+        
+        $id = filter_var($id_unsafe, FILTER_VALIDATE_INT);
+        
+        $sql = $this->db->prepare("UPDATE shoppinglist_items "
+                . "SET bought = true "
+                . "WHERE id = :id");
+        
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        return $sql->execute();
+        
+    }
+    
+    public function setItemToNotBought($id_unsafe){
+        
+        $id = filter_var($id_unsafe, FILTER_VALIDATE_INT);
+        
+        $sql = $this->db->prepare("UPDATE shoppinglist_items "
+                . "SET bought = false "
+                . "WHERE id = :id");
+        
+        $sql->bindValue(":id", $id, PDO::PARAM_INT);
+        
+        return $sql->execute();
         
     }
     

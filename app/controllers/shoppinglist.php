@@ -2,6 +2,7 @@
 
 global $CONFIG;
 include($CONFIG["homedir"] . "services/shoppinglistservice.php");
+include($CONFIG["homedir"] . "services/itemservice.php");
 
 
 /**
@@ -12,6 +13,7 @@ include($CONFIG["homedir"] . "services/shoppinglistservice.php");
 class shoppinglist extends controllerbase {
     
     protected $shoppinglistservice;
+    protected $itemservice;
     
     public function __construct($action, $params, $db){
         
@@ -22,6 +24,7 @@ class shoppinglist extends controllerbase {
             
             parent::__construct($action, $params, $db);
             $this->shoppinglistservice = new shoppinglistservice($db);
+            $this->itemservice = new itemservice($db);
         
         } else {
             header("Location: " . $CONFIG["siteurl"] . "/?page=login");
@@ -31,8 +34,8 @@ class shoppinglist extends controllerbase {
 
     protected function index($model){
         
-        $lists = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
-        $model['lists'] = $lists;
+        $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+        $model["collablists"] = $this->shoppinglistservice->getUsersCollabLists($_SESSION["user"]["id"]);
         $this->display($model, TRUE);
 
     }
@@ -78,12 +81,14 @@ class shoppinglist extends controllerbase {
             
             $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
             $model["success"] = TRUE;
+            $model["alertType"] = "alert-success";
             $model["message"] = "Poisto onnistui!";
             
         } else {
             
             $model["list"] = $this->shoppinglistservice->getSingleList($this->params[0]);
             $model["success"] = FALSE;
+            $model["alertType"] = "alert-danger";
             $model["message"] = "Poisto epäonnistui.";
             
         }
@@ -97,18 +102,21 @@ class shoppinglist extends controllerbase {
     }
     
     protected function addNewList($model){
+        
+        $id = $this->shoppinglistservice->addNewList();
        
-        if($this->shoppinglistservice->addNewList()){
+        if(($id)){
             
-            $id = $this->db->lastInsertId();
             $model["success"] = TRUE;
             $model["message"] = "Uusi lista lisättiin onnistuneesti!";
+            $model["alertType"] = "alert-success";
             $model["list"] = $this->shoppinglistservice->getSingleList($id);
             
         } else {
             
            $model["success"] = FALSE;
            $model["message"] = "Uutta listaa ei voitu luoda";
+           $model["alertType"] = "alert-danger";
            $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
             
         }
@@ -117,22 +125,103 @@ class shoppinglist extends controllerbase {
     }
     
     protected function deleteItemFromList($model){
-        $this->shoppinglistservice->deleteItemFromList($this->params[0]);
+        
+        $model["message"]   = "Ostosta ei voitu poistaa";
+        $model["alertType"] = "alert-danger";
+        
+        if($this->shoppinglistservice->deleteItemFromList($this->params[0])){
+
+            $model["message"]   = "Ostos poistettiin onnistuneesti";
+            $model["alertType"] = "alert-success";
+            
+        }
+        
         $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
         $this->display($model, TRUE);
     }
     
-    protected function showAddItemForm($model){
-        
-        $model["id"] = $this->params[0];
-        $this->display($model, TRUE);
-        
-    }
+    
     
     protected function addItemToList($model){
-        $this->shoppinglistservice->addItemToList($this->params[0]);
-        $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
-        $this->display($model, TRUE);
+        if($this->shoppinglistservice->addItemToList($this->params[0])){
+         
+            $model["alertType"] = "alert-success";
+            $model["message"]   = "Ostos lisättiin";
+            $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            $this->display($model);
+            
+        } else {
+            
+            $model["alertType"] = "alert-danger";
+            $model["message"]   = "Ostosta ei voitu lisätä";
+            $model["lists"]     = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            $this->display($model);
+            
+        }
+    }
+    
+    public function itemHasBeenBought($model){
+        
+        if( $this->itemservice->itemHasBeenBought($this->params[0]) ){
+            
+            $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            $this->display($model);    
+            
+        } else {
+            
+            $model["alertType"] = "alert-danger";
+            $model["message"]   = "Ostosta ei voitu muuttaa ostetuksi";
+            $this->display($model);
+            
+        }
+                
+    }
+    
+    public function setItemToNotBought($model){
+        
+        if( $this->itemservice->setItemToNotBought($this->params[0]) ){
+            
+            $model["lists"] = $this->shoppinglistservice->getUsersLists($_SESSION["user"]["id"]);
+            $this->display($model);    
+            
+        } else {
+            
+            $model["alertType"] = "alert-danger";
+            $model["message"]   = "Ostosta ei voitu siirtää ostettavaksi";
+            $this->display($model);
+            
+        }
+                
+    }
+    
+    protected function showAddCollaboratorForm($model){
+        
+        $model["id"] = filter_var($this->params[0], FILTER_VALIDATE_INT);
+        $this->display($model);
+        
+    }
+    
+    protected function addCollaboratorToList($model){
+        
+        if($this->shoppinglistservice->addCollaboratorToList($this->params[0])){
+            
+            $id = $_SESSION["user"]["id"];
+            
+            $model["message"]       = "Kollabori lisättiin onnistuneesti!";
+            $model["lists"]         = $this->shoppinglistservice->getUsersLists($id);
+            $model["collablists"]   = $this->shoppinglistservice->getUsersCollabLists($id);
+            $this->display($model);
+                    
+        } else {
+            
+            $model["message"]       = "Kollaboria ei voitu lisätä";
+            $model["alertType"]     = "alert-danger";
+            $model["lists"]         = $this->shoppinglistservice->getUsersLists($id);
+            $model["collablists"]   = $this->shoppinglistservice->getUsersCollabLists($id);
+            $this->display($model);
+            
+        }
+        
     }
     
 }

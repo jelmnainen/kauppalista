@@ -1,17 +1,19 @@
 <?php
     
-    $list = $model["list"];
-    $items = $list->getItems();
+    $items = $collablist->getItems();
 
 ?>
 
 <div class="single-shoppinglist">
     
-    <h2><?php echo $list->getName(); ?></h2>
+    <h2><?php echo $collablist->getName(); ?></h2>
     
     <div class="single-list-inner">
         
-        <p class="byline"> Viimeksi muokattu: <?php echo $list->getUpdated(); ?></p>
+        <p class="byline">
+            Viimeksi muokattu: <?php echo $collablist->getUpdated(); ?><br />
+            <?php echo ($collablist->getActive() ? "Aktiivinen" : "Epäaktiivinen"); ?><br />
+        </p>
         
         <ul class="shoppinglist-items-listing list-group">
             <?php 
@@ -38,10 +40,9 @@
             
         </ul>
         
-        <a href="?page=item&action=addItemToList&params=<?php echo $list->getID(); ?>">
+        <a href="?page=item&action=showAddItemToListForm&params=<?php echo $collablist->getID(); ?>">
             Lisää uusi ostos listalle
         </a>
-        
 
     </div>
     

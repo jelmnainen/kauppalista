@@ -87,7 +87,7 @@ abstract class controllerbase {
      * @param mixed $output from model, used in template
      * @param boolean $fullview true = pass $output to layout
      */
-    public function display($model, $fullview, $layout = "default_layout"){
+    public function display($model, $fullview = TRUE, $layout = "default_layout"){
         
         GLOBAL $CONFIG;
         
@@ -100,12 +100,10 @@ abstract class controllerbase {
                  . '/' . $this->action 
                  . '.php';
         
-        $model["message"] = "hei!";
-        
         if ($fullview) {
                 require($CONFIG["viewsdir"] . $layout . ".php" );
         } else {
-                require($views);
+                require($view);
         }
     }
     

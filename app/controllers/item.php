@@ -35,12 +35,20 @@ class item extends controllerbase{
             
         } else {
             
+            $model["alertType"] = "alert-danger";
             $model["message"]   = "Kohteen muokkaus epäonnistui";
             $model["item"]      = $this->itemservice->getSingleItem($this->params[0]);
             
         }
         
         $this->display($model, TRUE);
+    }
+    
+    protected function showAddItemToListForm($model){
+        
+        $model["id"] = $this->params[0];
+        $this->display($model, TRUE);
+        
     }
 
     

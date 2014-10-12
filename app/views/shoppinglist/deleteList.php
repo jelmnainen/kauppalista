@@ -1,10 +1,10 @@
-<h2><?php echo $model["message"] ?></h2>
-
 <?php
     
     if($model["success"]){ //handle case success
+        
+        $list = $model["list"];
     
-        require_once("index.php");
+        require_once("allLists.php");
     
     } else {
     
