@@ -253,6 +253,7 @@ class shoppinglistservice {
         
     }
     
+    
     /**
      * Function deletes a single list
      * @param int $id the id of the list to be deleted

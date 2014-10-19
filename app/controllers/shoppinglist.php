@@ -3,6 +3,7 @@
 global $CONFIG;
 include($CONFIG["homedir"] . "services/shoppinglistservice.php");
 include($CONFIG["homedir"] . "services/itemservice.php");
+include($CONFIG["homedir"] . "services/userservice.php");
 
 
 /**
@@ -14,6 +15,7 @@ class shoppinglist extends controllerbase {
     
     protected $shoppinglistservice;
     protected $itemservice;
+    protected $userservice;
     
     public function __construct($action, $params, $db){
         
@@ -25,6 +27,7 @@ class shoppinglist extends controllerbase {
             parent::__construct($action, $params, $db);
             $this->shoppinglistservice = new shoppinglistservice($db);
             $this->itemservice = new itemservice($db);
+            $this->userservice = new userservice($db);
         
         } else {
             header("Location: " . $CONFIG["siteurl"] . "/?page=login");
@@ -194,9 +197,44 @@ class shoppinglist extends controllerbase {
                 
     }
     
+    protected function searchForUsers($model){
+        $model["listID"] = filter_var($this->params[0], FILTER_VALIDATE_INT);
+        $model["users"] = $this->userservice->searchForUsersNotInList($this->params[0]);
+        $this->display($model);
+    }
+    
+    protected function addUserByIDAsCollaborator($model){
+        if( $this->userservice->addUserByIDAsCollaborator( $this->params[0], $this->params[1] )){
+            $model["message"] = "Uuden kollaborin lisääminen onnistui";
+        } else {
+            $model["message"] = "Uuden kollaborin lisääminen epäonnistui";
+        }
+        $model["listID"] = filter_var($this->params[1], FILTER_VALIDATE_INT);
+        $model["users"]  = $this->userservice->searchForUsersNotInList($this->params[1]);
+        $this->display($model);
+    }
+
+
     protected function showAddCollaboratorForm($model){
         
+        $model["collaborators"] = $this->userservice->getListCollaboratorsByListID($this->params[0]);
         $model["id"] = filter_var($this->params[0], FILTER_VALIDATE_INT);
+        $this->display($model);
+        
+    }
+    
+    protected function removeCollaboratorByIDFromListByID($model){
+        //param 0 = user id
+        //param 1 = list id
+        if($this->userservice->removeCollaboratorByIDFromListByID($this->params[0], $this->params[1])){
+            $model["message"] = "Käyttäjä poistettiin onnistuneesti";
+        } else {
+            $model["alertType"] = "alert-danger";
+            $model["message"] = "Käyttäjän poisto ei onnistunut";
+        }
+        $model["collaborators"] = $this->userservice->getListCollaboratorsByListID($this->params[1]);
+        $model["id"] = filter_var($this->params[1], FILTER_VALIDATE_INT);
+        
         $this->display($model);
         
     }

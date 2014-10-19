@@ -45,7 +45,7 @@
         </a>
         <br />
         <a href="?page=shoppinglist&action=showAddCollaboratorForm&params=<?php echo $list->getID(); ?>">
-            Lisää listalle kollabori
+            Lisää tai poista kollabori
         </a>
         <br />
         <a href="?page=shoppinglist&action=deleteList&params=<?php echo $list->getID(); ?>">
