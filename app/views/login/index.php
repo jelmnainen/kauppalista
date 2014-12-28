@@ -18,7 +18,7 @@
     
     </p>
     
-    <form id="loginform" method="post" action="/?page=login&action=processLogin">
+    <form id="loginform" method="post" action="?page=login&action=processLogin">
     
         <li>
             <label for="username-field">

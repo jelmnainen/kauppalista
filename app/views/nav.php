@@ -3,22 +3,13 @@
     <ul class="nav nav-pills nav-justified">
         <?php 
         
-        //show different nav for users depending on their login status
-        $logged_out_nav =   '<li><a href="?page=home">Info</a></li>' 
-                        .   '<li><a href="?page=register">Rekisteröidy</li></a>' 
-                        .   '<li><a href="?page=login">Kirjaudu sisään</li></a>';
-        
-        $logged_in_nav  =   '<li><a href="?page=home">Info</a></li>'
-                        .   '<li><a href="?page=shoppinglist">Kauppalistat</a></li>'
-                        .   '<li><a href="?page=login&action=logout">Kirjaudu ulos</a>';
-        
-        
+        //show different nav for users depending on their login status     
         if(        isset($_SESSION["user"])
                 &&! empty($_SESSION["user"]) ){
 
              ?>
                 
-            <li><a href="?page=home">Info</a></li>
+            <li><a href="?page=home&action=info">Info</a></li>
             <li><a href="?page=shoppinglist">Kauppalistat</a></li>
             <li><a href="?page=login&action=logout">Kirjaudu ulos</a>
                 
@@ -27,7 +18,7 @@
         } else {
            
             ?>
-                <li><a href="?page=home">Info</a></li>
+                <li><a href="?page=home&action=info">Info</a></li>
                 <li><a href="?page=register">Rekisteröidy</li></a> 
                 <li><a href="?page=login">Kirjaudu sisään</li></a>
                 

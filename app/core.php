@@ -24,7 +24,7 @@ class core{
         $pdo = new db($CONFIG["dbconfig"]);
         $this->db = $pdo->getConn();
         
-        //get controller, action and params
+        //get controller, action and params from URI
         $this->requested_controller = $this->getRequestedControllerFromURI();
         $this->requested_action     = $this->getRequestedActionFromURI();
         $this->requested_params     = $this->getRequestedParamsFromURI();

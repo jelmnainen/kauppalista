@@ -82,7 +82,7 @@ abstract class controllerbase {
     }
     
     /**
-     * 
+     * The output rendering function. 
      * 
      * @param mixed $output from model, used in template
      * @param boolean $fullview true = pass $output to layout

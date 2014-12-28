@@ -31,7 +31,7 @@
                 
                 <div class="col-sm-12">
 
-                    <h1 id="site-title">Tietokantasovelluksen esittelysivu: Kauppalista</h1>
+                    <a href="?page=home"><h1 id="site-title">Kauppalista</h1></a>
                     
                 </div>
                 

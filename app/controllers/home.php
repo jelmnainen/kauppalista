@@ -7,6 +7,11 @@ class home extends controllerbase{
         $this->display($output, true);
     }  
     
+    protected function info(){
+        $output = $this->model->info();
+        $this->display($output);
+    }
+    
     protected function login(){
         $output = $this->model->login();
         $this->display($output, true);
