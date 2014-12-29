@@ -55,7 +55,7 @@
                      <?php 
                         echo (!empty($item->getBuyer()) 
                                 ?     '<li class="list-group-item">' . 
-                                        $item->getBuyer()
+                                        'Ostaja: ' .  $item->getBuyer()
                                     . '</li>'
                                 : ''
                         ); 

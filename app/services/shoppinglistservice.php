@@ -327,7 +327,7 @@ class shoppinglistservice {
             $item->setID($itemrow["id"]);
             $item->setPrice($itemrow["price"]);
             $item->setShop($itemrow["shop"]);
-            $item->setBuyer($itemrow["buyer"]);
+            $item->setBuyer($this->getItemBuyerByItemBuyerID($itemrow["buyerID"]));            
             $item->setIsBought($itemrow["bought"]);
             
             $items[] = $item;          
@@ -335,6 +335,37 @@ class shoppinglistservice {
         }
         
         return $items;
+    }
+    
+    /**
+     * Returns the name of the user who bought the item. If 
+     * item is unbought or if the buyerID is not found in users table returns 
+     * an empty string
+     * 
+     * @param type $buyerID the buyerID of item
+     */
+    private function getItemBuyerByItemBuyerID($buyerID){
+        
+        if(is_null($buyerID)){
+            return "";
+        } else {
+            
+            $sql = $this->db->prepare("SELECT * FROM shoppinglist_users AS a "
+                    . "                 WHERE a.id = :id");
+            $sql->bindValue(":id", $buyerID, PDO::PARAM_INT);
+            
+            if($sql->execute()){
+                
+                $row = $sql->fetch(PDO::FETCH_ASSOC);
+                $name = $row["username"];
+                return $name;
+                
+            } else {
+                
+                return "";
+                
+            }
+        }
     }
     
     public function deleteItemFromList($id){
