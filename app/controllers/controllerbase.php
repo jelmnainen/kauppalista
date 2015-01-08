@@ -11,7 +11,6 @@ abstract class controllerbase {
     public      $db;
     protected   $action;
     protected   $params;
-    protected   $modelfile;
     protected   $model;
     protected   $user;
     
@@ -19,19 +18,11 @@ abstract class controllerbase {
         
         GLOBAL $CONFIG;
         
-        $this->action       = $action;
-        $this->params       = $params;
-        $this->db           = $db;
-        $this->modelfile    = $CONFIG["modelsdir"] 
-                                . get_class($this) 
-                                . "model.php";
-        $this->user = $this->getUserFromSession();
-        
-        require_once($this->modelfile);
-        
-        $model = get_class($this) . "model";
-        
-        $this->model = new $model($this->db);
+        $this->action   = $action;
+        $this->params   = $params;
+        $this->db       = $db;
+        $this->user     = $this->getUserFromSession();
+        $this->model    = array();
         
     }
     
@@ -77,7 +68,7 @@ abstract class controllerbase {
     
     public function executeAction(){
         
-        $this->{$this->action}([]);
+        $this->{$this->action}();
         
     }
     

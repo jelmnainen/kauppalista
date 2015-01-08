@@ -2,6 +2,8 @@
 <h2>Omat listasi</h2>
 <?php
 
+var_dump($model);
+
 if(count($model["lists"]) > 0){
 
     foreach($model["lists"] as $list){
@@ -27,19 +29,23 @@ if(count($model["lists"]) > 0){
 
 <?php 
 
-if(count($model["collablists"]) > 0){
-    
-    ?>
+if(isset($model["collablists"])){
 
-    <h2>Listat, joissa olet mukana</h2>
-    
-    <?php
+    if(count($model["collablists"]) > 0){
 
-        foreach($model["collablists"] as $collablist){
+        ?>
 
-            include("singleCollabListElement.php");
+        <h2>Listat, joissa olet mukana</h2>
 
-        }
+        <?php
+
+            foreach($model["collablists"] as $collablist){
+
+                include("singleCollabListElement.php");
+
+            }
+
+    }
     
 }
 
