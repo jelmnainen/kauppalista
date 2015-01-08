@@ -76,7 +76,8 @@ class itemservice {
             $sql->bindValue(":price", $price, PDO::PARAM_INT);
             $sql->bindValue(":bought", $bought, PDO::PARAM_STR);
             $sql->bindValue(":id", $id, PDO::PARAM_INT);
-
+            
+ 
             return $sql->execute();
             
         } else { //values were bad
@@ -90,7 +91,7 @@ class itemservice {
     private function itemValuesAreOK($name, $price, $shop){
         
         if(     strlen($name) > 0 &&
-                $price > 0 ){
+                $price > -1 ){
             
             return TRUE;
             
