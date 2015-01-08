@@ -2,20 +2,37 @@
 
 
 /**
- * Description of register
+ * Class handles new user registeration
  *
  * @author sanho
  */
+
+global $CONFIG;
+include($CONFIG["homedir"] . "services/registerservice.php");
+
 class register extends controllerbase {
 
+    private $registerservice;
+    
+    public function __construct($action, $params, $db) {
+        
+        parent::__construct($action, $params, $db);
+        $this->registerservice = new registerservice($db);
+        
+    }
+    
+    /*** ROUTES ***/
+    
+    /**
+     * Index page is static
+     */
     protected function index(){
-        $output = $this->model->index();
-        $this->display($output, TRUE);
+        $this->display();
     }
     
     protected function processRegisteration(){
-        $output = $this->model->processRegisteration();
-        $this->display($output, TRUE);
+        $this->model["success"] = $this->registerservice->processRegisteration();
+        $this->display($this->model);
     }
        
 }
