@@ -4,7 +4,7 @@ include_once($CONFIG["homedir"] . "domain/shoppinglistdomain.php");
 include_once($CONFIG["homedir"] . "domain/itemdomain.php");
 
 /**
- * Provides database services for lists in shoppinglist
+ * Controller for shoppinglist entities
  *
  * @author sanho
  */

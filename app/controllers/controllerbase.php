@@ -2,7 +2,7 @@
 
 
 /**
- * Description of ControllerBase
+ * The base file for controllers
  *
  * @author sanho
  */
@@ -78,7 +78,7 @@ abstract class controllerbase {
      * @param mixed $output from model, used in template
      * @param boolean $fullview true = pass $output to layout
      */
-    public function display($model, $fullview = TRUE, $layout = "default_layout"){
+    public function display($model = NULL, $fullview = TRUE, $layout = "default_layout"){
         
         GLOBAL $CONFIG;
         
