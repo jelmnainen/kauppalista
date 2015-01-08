@@ -6,7 +6,7 @@ $CONFIG = array(
     'controllerdir' =>  __DIR__ . "/controllers/",
     'viewsdir'      =>  __DIR__ . "/views/",
     'modelsdir'     =>  __DIR__ . "/models/",
-    'homeurl'       =>  "http://tsoha.elmnainen.fi/"
+    'homeurl'       =>  ""
 );
 
 
