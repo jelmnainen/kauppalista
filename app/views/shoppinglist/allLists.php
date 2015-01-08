@@ -2,6 +2,8 @@
 <h2>Omat listasi</h2>
 <?php
 
+var_dump($model);
+
 if(count($model["lists"]) > 0){
 
     foreach($model["lists"] as $list){
