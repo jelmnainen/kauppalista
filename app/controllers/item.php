@@ -19,35 +19,35 @@ class item extends controllerbase{
         
     }
     
-    protected function showModifyForm($model){
+    protected function showModifyForm(){
         
-        $model["item"] = $this->itemservice->getSingleItem($this->params[0]);
-        $this->display($model, TRUE);
+        $this->model["item"] = $this->itemservice->getSingleItem($this->params[0]);
+        $this->display($this->model, TRUE);
         
     }
     
-    protected function modifyItem($model){
+    protected function modifyItem(){
         
         if($this->itemservice->modifyItem($this->params[0])){
             
-            $model["message"]   = "Kohteen muokkaus onnistui!";
-            $model["item"]      = $this->itemservice->getSingleItem($this->params[0]);
+            $this->model["message"]   = "Kohteen muokkaus onnistui!";
+            $this->model["item"]      = $this->itemservice->getSingleItem($this->params[0]);
             
         } else {
             
-            $model["alertType"] = "alert-danger";
-            $model["message"]   = "Kohteen muokkaus epäonnistui";
-            $model["item"]      = $this->itemservice->getSingleItem($this->params[0]);
+            $this->model["alertType"] = "alert-danger";
+            $this->model["message"]   = "Kohteen muokkaus epäonnistui";
+            $this->model["item"]      = $this->itemservice->getSingleItem($this->params[0]);
             
         }
         
-        $this->display($model, TRUE);
+        $this->display($this->model, TRUE);
     }
     
-    protected function showAddItemToListForm($model){
+    protected function showAddItemToListForm(){
         
-        $model["id"] = $this->params[0];
-        $this->display($model, TRUE);
+        $this->model["id"] = $this->params[0];
+        $this->display($this->model, TRUE);
         
     }
 
