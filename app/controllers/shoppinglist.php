@@ -7,7 +7,7 @@ include($CONFIG["homedir"] . "services/userservice.php");
 
 
 /**
- * Shoppinglist displays 
+ * Controller for shoppinglist entities. 
  *
  * @author sanho
  */
