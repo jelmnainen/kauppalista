@@ -2,7 +2,7 @@
 
 
 /**
- * The base file for controllers
+ * Description of ControllerBase
  *
  * @author sanho
  */
