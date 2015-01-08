@@ -1,6 +1,6 @@
 <?php 
 
-if($model){
+if($model["success"]){
         
         ?>
 

@@ -1,31 +1,44 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of login
+ * This controller handles the login logic
  *
  * @author johannes
  */
-class login extends controllerbase {
 
+global $CONFIG;
+include($CONFIG["homedir"] . "services/loginservice.php");
+
+class login extends controllerbase {
+    
+    private $loginservice;
+    
+    public function __construct($action, $params, $db) {
+        
+        parent::__construct($action, $params, $db);
+        $this->loginservice = new loginservice($db);
+        
+    }
+    
+    /*** Route functions ***/
+
+    /**
+     * Login index is a static form
+     */
     protected function index(){
-        $output = $this->model->index();
-        $this->display($output, TRUE);
+        $this->display();
     }
     
     protected function processLogin(){
-        $output = $this->model->processLogin();
-        $this->display($output, TRUE);
+        $this->model["success"] = $this->loginservice->processLogin();
+        $this->display($this->model);
     }
     
     protected function logout(){
-        $output = $this->model->processLogout();
-        $this->display($output, TRUE);
+        $this->model["success"] = $this->loginservice->processLogout();
+        $this->display($this->model);
     }
     
 }
